@@ -9,8 +9,7 @@ import org.openqa.selenium.Keys;
 
 import java.io.File;
 
-import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -90,44 +89,27 @@ public class PracticeFormTests {
         // Assertions
 
         // Modal header
-        $("div[role='dialog']").$(".modal-title.h4").shouldHave(exactText("Thanks for submitting the form"));
+        $("div[role='dialog']").$(".modal-title").shouldHave(exactText("Thanks for submitting the form"));
 
         // Table
-        $("div.table-responsive").$$("thead>tr>th").get(0).shouldHave(exactText("Label"));
-        $("div.table-responsive").$$("thead>tr>th").get(1).shouldHave(exactText("Values"));
-
-        $("div.table-responsive").$$("tbody>tr").get(0).$$("td").get(0).shouldHave(exactText("Student Name"));
-        $("div.table-responsive").$$("tbody>tr").get(0).$$("td").get(1).shouldHave(exactText("Sergey Dubinin"));
-
-        $("div.table-responsive").$$("tbody>tr").get(1).$$("td").get(0).shouldHave(exactText("Student Email"));
-        $("div.table-responsive").$$("tbody>tr").get(1).$$("td").get(1).shouldHave(exactText("sergey@mail.com"));
-
-        $("div.table-responsive").$$("tbody>tr").get(2).$$("td").get(0).shouldHave(exactText("Gender"));
-        $("div.table-responsive").$$("tbody>tr").get(2).$$("td").get(1).shouldHave(exactText("Male"));
-
-        $("div.table-responsive").$$("tbody>tr").get(3).$$("td").get(0).shouldHave(exactText("Mobile"));
-        $("div.table-responsive").$$("tbody>tr").get(3).$$("td").get(1).shouldHave(exactText("8900500511"));
-
-        $("div.table-responsive").$$("tbody>tr").get(4).$$("td").get(0).shouldHave(exactText("Date of Birth"));
-        $("div.table-responsive").$$("tbody>tr").get(4).$$("td").get(1).shouldHave(exactText("30 June,1994"));
-
-        $("div.table-responsive").$$("tbody>tr").get(5).$$("td").get(0).shouldHave(exactText("Subjects"));
-        $("div.table-responsive").$$("tbody>tr").get(5).$$("td").get(1).shouldHave(exactText("English"));
-
-        $("div.table-responsive").$$("tbody>tr").get(6).$$("td").get(0).shouldHave(exactText("Hobbies"));
-        $("div.table-responsive").$$("tbody>tr").get(6).$$("td").get(1).shouldHave(exactText("Sports"));
-
-        $("div.table-responsive").$$("tbody>tr").get(7).$$("td").get(0).shouldHave(exactText("Picture"));
-        $("div.table-responsive").$$("tbody>tr").get(7).$$("td").get(1).shouldHave(exactText("photo.jpg"));
-
-        $("div.table-responsive").$$("tbody>tr").get(8).$$("td").get(0).shouldHave(exactText("Address"));
-        $("div.table-responsive").$$("tbody>tr").get(8).$$("td").get(1).shouldHave(exactText("My address"));
-
-        $("div.table-responsive").$$("tbody>tr").get(9).$$("td").get(0).shouldHave(exactText("State and City"));
-        $("div.table-responsive").$$("tbody>tr").get(9).$$("td").get(1).shouldHave(exactText("Haryana Karnal"));
+        $("div.table-responsive").$(byText("Label")).sibling(0).shouldHave(exactText("Values"));
+        $("div.table-responsive").$(byText("Student Name")).sibling(0).shouldHave(exactText("Sergey Dubinin"));
+        $("div.table-responsive").$(byText("Student Email")).sibling(0).shouldHave(exactText("sergey@mail.com"));
+        $("div.table-responsive").$(byText("Gender")).sibling(0).shouldHave(exactText("Male"));
+        $("div.table-responsive").$(byText("Mobile")).sibling(0).shouldHave(exactText("8900500511"));
+        $("div.table-responsive").$(byText("Date of Birth")).sibling(0).shouldHave(exactText("30 June,1994"));
+        $("div.table-responsive").$(byText("Subjects")).sibling(0).shouldHave(exactText("English"));
+        $("div.table-responsive").$(byText("Hobbies")).sibling(0).shouldHave(exactText("Sports"));
+        $("div.table-responsive").$(byText("Picture")).sibling(0).shouldHave(exactText("photo.jpg"));
+        $("div.table-responsive").$(byText("Address")).sibling(0).shouldHave(exactText("My address"));
+        $("div.table-responsive").$(byText("State and City")).sibling(0).shouldHave(exactText("Haryana Karnal"));
 
         // Close modal
 
         $("#closeLargeModal").click();
+
+        $(".practice-form-wrapper").$("h1")
+                .shouldBe(visible)
+                .shouldHave(exactText("Practice Form"));
     }
 }
