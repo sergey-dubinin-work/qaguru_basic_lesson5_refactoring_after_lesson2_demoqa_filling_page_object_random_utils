@@ -1,0 +1,26 @@
+plugins{
+    id 'java-library'
+}
+
+def jUnitVersion = '5.8.1',
+        webDriverManagerVersion = '5.9.3',
+        selenideVersion = '7.7.3'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation (
+            "org.junit.jupiter:junit-jupiter:$jUnitVersion",
+            "io.github.bonigarcia:webdrivermanager:$webDriverManagerVersion",
+            "com.codeborne:selenide:$selenideVersion"
+    )
+    testRuntimeOnly (
+            "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
+    )
+}
+
+test{
+    useJUnitPlatform()
+}
