@@ -1,28 +1,14 @@
 package guru.qa.tests;
 
-import com.codeborne.selenide.Configuration;
+import guru.qa.TestBase;
 import guru.qa.pages.RegistrationPage;
 import guru.qa.pages.RegistrationResultsPage;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PracticeFormTests {
+public class PracticeFormTests extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
     RegistrationResultsPage registrationResultsPage = new RegistrationResultsPage();
-
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-    }
-
-    @BeforeEach
-    void setUp() {
-        WebDriverManager.chromedriver().setup();
-    }
 
     @Test
     void testFillingPracticeForm(){
