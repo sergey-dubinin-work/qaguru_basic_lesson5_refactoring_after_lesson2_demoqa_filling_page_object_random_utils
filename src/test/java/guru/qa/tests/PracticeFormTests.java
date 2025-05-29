@@ -6,6 +6,7 @@ import guru.qa.pages.RegistrationResultsPage;
 import org.junit.jupiter.api.Test;
 
 import static guru.qa.testData.TestData.userEmail;
+import static guru.qa.utils.RandomUtils.getRandomString;
 
 public class PracticeFormTests extends TestBase {
 
@@ -16,7 +17,7 @@ public class PracticeFormTests extends TestBase {
     void testFillingPracticeForm(){
 
         String
-                firstName = "Sergey",
+                firstName = getRandomString(12),
                 lastName = "Dubinin",
                 email = userEmail,
                 gender = "Male",
