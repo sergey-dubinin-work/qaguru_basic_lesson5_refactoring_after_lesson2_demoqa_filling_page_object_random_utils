@@ -5,6 +5,8 @@ import guru.qa.pages.RegistrationPage;
 import guru.qa.pages.RegistrationResultsPage;
 import org.junit.jupiter.api.Test;
 
+import static guru.qa.testData.TestData.userEmail;
+
 public class PracticeFormTests extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
@@ -16,7 +18,7 @@ public class PracticeFormTests extends TestBase {
         String
                 firstName = "Sergey",
                 lastName = "Dubinin",
-                email = "sergey@mail.com",
+                email = userEmail,
                 gender = "Male",
                 phoneNumber = "8900500511",
                 birthYear = "1994",
