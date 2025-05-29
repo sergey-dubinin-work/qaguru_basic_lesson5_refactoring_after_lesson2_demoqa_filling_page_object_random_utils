@@ -1,5 +1,6 @@
 package guru.qa.tests;
 
+import com.github.javafaker.Faker;
 import guru.qa.TestBase;
 import guru.qa.pages.RegistrationPage;
 import guru.qa.pages.RegistrationResultsPage;
@@ -13,12 +14,14 @@ public class PracticeFormTests extends TestBase {
     RegistrationPage registrationPage = new RegistrationPage();
     RegistrationResultsPage registrationResultsPage = new RegistrationResultsPage();
 
+    Faker faker = new Faker();
+
     @Test
     void testFillingPracticeForm(){
 
         String
                 firstName = getRandomString(12),
-                lastName = "Dubinin",
+                lastName = faker.name().lastName(),
                 email = userEmail,
                 gender = "Male",
                 phoneNumber = "8900500511",
