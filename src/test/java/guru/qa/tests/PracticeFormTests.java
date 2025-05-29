@@ -3,17 +3,22 @@ package guru.qa.tests;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
+import com.google.gson.JsonObject;
 import guru.qa.TestBase;
 import guru.qa.pages.RegistrationPage;
 import guru.qa.pages.RegistrationResultsPage;
+import guru.qa.utils.JavaScriptReader;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
+import static guru.qa.helpers.JsonConverter.convertPlainJsonToJsonObject;
 import static guru.qa.testData.TestData.userEmail;
 import static guru.qa.utils.RandomUtils.getRandomString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PracticeFormTests extends TestBase {
 
@@ -64,6 +69,8 @@ public class PracticeFormTests extends TestBase {
 
         // Assertions
 
+        // Способ 1. Поиск в DOM дереве и сравнение
+
         String[] splittedPicturePath = picturePath.split("/");
 
         registrationResultsPage
@@ -80,6 +87,7 @@ public class PracticeFormTests extends TestBase {
                 .submittedFormHasRow("Address", address)
                 .submittedFormHasRow("State and City", String.format("%s %s", state, city));
 
+        // Способ 2. Поиск в DOM дереве и сравнение с эталонной Map
 
         Map<String, String> expectedData = Map.of(
                 "Student Name", String.format("%s %s", firstName, lastName),
@@ -99,6 +107,19 @@ public class PracticeFormTests extends TestBase {
                 line.$("td", 1).shouldHave(exactText(expectedValue));
             }
 
+        }
+
+        // Способ 3. Сохранение данных из таблицы в JSON объект с помощью JS скрипта
+
+        String rawTableData = executeJavaScript(JavaScriptReader.readJavaScriptCodeFromFile("src/test/resources/js/get_table_data.js"));
+
+        JsonObject jsonTableData = convertPlainJsonToJsonObject(rawTableData);
+        for(String key: jsonTableData.keySet()){
+            if (expectedData.containsKey(key)){
+                String expectedValue = expectedData.get(key);
+                String actualValue = jsonTableData.get(key).toString();
+                assertEquals(expectedValue, actualValue);
+            }
         }
 
         registrationResultsPage
