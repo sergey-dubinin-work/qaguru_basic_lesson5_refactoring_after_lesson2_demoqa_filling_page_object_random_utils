@@ -27,40 +27,60 @@ public class PracticeFormTests {
     @Test
     void testFillingPracticeForm(){
 
+        String
+                firstName = "Sergey",
+                lastName = "Dubinin",
+                email = "sergey@mail.com",
+                gender = "Male",
+                phoneNumber = "8900500511",
+                birthYear = "1994",
+                birthMonth = "June",
+                birthDay = "30",
+                subject = "English",
+                hobby = "Sports",
+                picturePath = "src/test/resources/img/photo.jpg",
+                pictureClassPath = "img/photo.jpg",
+                address = "My address",
+                state = "Haryana",
+                city = "Karnal";
+
+
         registrationPage
                 .openPage()
                 .formHeaderHasText("Student Registration Form")
-                .typeFirstName("Sergey")
-                .typeLastName("Dubinin")
-                .typeEmail("sergey@mail.com")
-                .selectGender("Male")
-                .typePhoneNumber("8900500511")
-                .setDateBirthDate("1994", "June", "30")
-                .selectSubject("English")
-                .checkHobby("Sports")
-                .selectPicture("src/test/resources/img/photo.jpg")      // 1st variant
-                .selectPictureByClassPath("img/photo.jpg")              // 2nd variant
-                .typeAddress("My address")
-                .selectState("Haryana")
-                .selectCity("Karnal")
+                .typeFirstName(firstName)
+                .typeLastName(lastName)
+                .typeEmail(email)
+                .selectGender(gender)
+                .typePhoneNumber(phoneNumber)
+                .setDateBirthDate(birthYear, birthMonth, birthDay)
+                .selectSubject(subject)
+                .checkHobby(hobby)
+                .selectPicture(picturePath)      // 1st variant
+                .selectPictureByClassPath(pictureClassPath)              // 2nd variant
+                .typeAddress(address)
+                .selectState(state)
+                .selectCity(city)
                 .clickSubmit()
                 ;
 
         // Assertions
 
+        String[] splittedPicturePath = picturePath.split("/");
+
         registrationResultsPage
                 .formHeaderHasText("Thanks for submitting the form")
                 .submittedFormHasRow("Label", "Values")
-                .submittedFormHasRow("Student Name", "Sergey Dubinin")
-                .submittedFormHasRow("Student Email", "sergey@mail.com")
-                .submittedFormHasRow("Gender", "Male")
-                .submittedFormHasRow("Mobile", "8900500511")
-                .submittedFormHasRow("Date of Birth", "30 June,1994")
-                .submittedFormHasRow("Subjects", "English")
-                .submittedFormHasRow("Hobbies", "Sports")
-                .submittedFormHasRow("Picture", "photo.jpg")
-                .submittedFormHasRow("Address", "My address")
-                .submittedFormHasRow("State and City", "Haryana Karnal")
+                .submittedFormHasRow("Student Name", String.format("%s %s", firstName, lastName))
+                .submittedFormHasRow("Student Email", email)
+                .submittedFormHasRow("Gender", gender)
+                .submittedFormHasRow("Mobile", phoneNumber)
+                .submittedFormHasRow("Date of Birth", String.format("%s %s,%s", birthDay, birthMonth, birthYear))
+                .submittedFormHasRow("Subjects", subject)
+                .submittedFormHasRow("Hobbies", hobby)
+                .submittedFormHasRow("Picture", splittedPicturePath[splittedPicturePath.length - 1])
+                .submittedFormHasRow("Address", address)
+                .submittedFormHasRow("State and City", String.format("%s %s", state, city))
                 .clickCloseButton();
 
         registrationPage
