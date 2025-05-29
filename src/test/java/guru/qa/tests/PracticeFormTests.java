@@ -1,11 +1,17 @@
 package guru.qa.tests;
 
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import guru.qa.TestBase;
 import guru.qa.pages.RegistrationPage;
 import guru.qa.pages.RegistrationResultsPage;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$$;
 import static guru.qa.testData.TestData.userEmail;
 import static guru.qa.utils.RandomUtils.getRandomString;
 
@@ -72,7 +78,30 @@ public class PracticeFormTests extends TestBase {
                 .submittedFormHasRow("Hobbies", hobby)
                 .submittedFormHasRow("Picture", splittedPicturePath[splittedPicturePath.length - 1])
                 .submittedFormHasRow("Address", address)
-                .submittedFormHasRow("State and City", String.format("%s %s", state, city))
+                .submittedFormHasRow("State and City", String.format("%s %s", state, city));
+
+
+        Map<String, String> expectedData = Map.of(
+                "Student Name", String.format("%s %s", firstName, lastName),
+                "Student Email", email
+        );
+
+
+        // Copy lines to elements collection
+
+        ElementsCollection lines = $$(".table-responsive tbody tr").snapshot();
+        for(SelenideElement line: lines){
+
+            String key = line.$("td").text();
+
+            if (expectedData.containsKey(key)){
+                String expectedValue = expectedData.get(key);
+                line.$("td", 1).shouldHave(exactText(expectedValue));
+            }
+
+        }
+
+        registrationResultsPage
                 .clickCloseButton();
 
         registrationPage
